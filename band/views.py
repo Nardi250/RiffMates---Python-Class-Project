@@ -1,6 +1,20 @@
 from django.shortcuts import render,get_object_or_404
 from .models import Musician 
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def restricted_page(request):
+    data = {
+        'title' : 'Restricted Page',
+    'content' : '<h1>you are logged in </h1>'
+    }
+    return render(request, 'general.html', data)
+
+# Create your views here.
+def viewBand(request, musician_id):
+    musician = get_object_or_404(Musician, pk=musician_id)
+    return render(request, 'band/band.html', {'musician': musician})
 
 
 def viewAllBands(request):
